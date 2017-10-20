@@ -12,8 +12,6 @@ $(window).on('keydown',function(e){
 	}
 });
 var autofocus= false;
-var nonRequired=false;
-var validForm=false;
 
 //form data
 var name_box= document.getElementById('name');
@@ -123,33 +121,14 @@ function validateTerms(){
 }
 
 function submitForm(e){
-	
-	var newUser;
-	if (nonRequired || validateName() && validateEmail() && validatePhone() && validatePW() && validateTerms()){
-		/*newUser={
-			name: name_box.value,
-			email:email_box.value,
-			phone: phone_box.value,
-			password:pw_box.value,
-		}
-		console.log(newUser);*/	
-	}
+	//check if all fields are valid, otherwise- do not submit
+	if (validateName() && validateEmail() && validatePhone() && validatePW() && validateTerms()){}
 	else{e.preventDefault();}
-
-		//e.preventDefault();
-	/*$.ajax({
-			type: "POST",
-			url	: "/users/signup", 
-			data: newUser
-		});*/
-		//$.post("/users/signup/",{newUser:newUser},function(res,err){console.log(res);}); //doesn't work either
-		
 }
 
 $(document).ready(function(){
 	$('#signup').submit(function(e){
 			submitForm(e);
-	//$('#register-box').html("welcome,", function(){window.location.reload();});
 	});
 
 	//email and username duplicate check on blur
@@ -163,11 +142,13 @@ $(document).ready(function(){
 		checkInUse(key, value);
 		
 	});
+
+	//check if the username/email input is already in use in the DB
 	function checkInUse(key, value){
 		var data={key:key, value: value};
 		$.ajax({
 			type:'PUT',				//TODO bug: GET not sending data
-			url: "http://"+window.location.host+"/users",
+			url: "https://"+window.location.host+"/users",
 			dataType:'json',
 			data:data,
 			success: function(res){
