@@ -84,7 +84,8 @@ app.use("/notes", notes);
 
 //initialize server
 var port=3000;
-app.listen(port);
+app.set('port', (process.env.PORT || port));
+app.listen(app.get('port'));
 console.log("Running on port "+port);
 
 module.exports=app;
