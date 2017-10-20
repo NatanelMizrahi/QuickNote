@@ -182,7 +182,7 @@
 				}
 				$.ajax({
 					type:'GET',
-					url:"http://" + window.location.host + "/notes/"+"getNote/"+noteID,
+					url:"https://" + window.location.host + "/notes/"+"getNote/"+noteID,
 					dataType:'JSON',
 					success: function(note){
 						$('#noteTitle').val(note.title);
@@ -247,7 +247,7 @@
 				$.ajax({
 					type:'DELETE',
 					dataType: 'JSON',
-					url:"http://" + window.location.host + "/notes/"+noteID,
+					url:"https://" + window.location.host + "/notes/"+noteID,
 					success:function(notes){ 
 						$("#note-msg").delay(fadeDelay).hide(toggleDuration, function(){ $(this).stop(true,false);});
 						renderNotes(notes);
@@ -282,7 +282,7 @@
 				if(noteID==="new"){
 					$.ajax({
 						type:'POST',
-						url: "http://" + window.location.host + "/notes/new/",	//TODO change url
+						url: "https://" + window.location.host + "/notes/new/",	//TODO change url
 						data:{
 							title:title,
 							body:body,
@@ -300,7 +300,7 @@
 				else{	//update note
 				$.ajax({
 						type:'PUT',
-						url: "http://" + window.location.host + "/notes/",	//TODO change url
+						url: "https://" + window.location.host + "/notes/",	//TODO change url
 						data:{
 							noteID: noteID,
 							title:title,
@@ -323,7 +323,7 @@
 				var sortBy= $(this).val();
 				$.ajax({
 					type:'PUT',
-					url:"http://" + window.location.host + "/notes/sort",
+					url:"https://" + window.location.host + "/notes/sort",
 					data:{sortBy: sortBy},
 					success: function(notes){ renderNotes(notes);}				
 				});
