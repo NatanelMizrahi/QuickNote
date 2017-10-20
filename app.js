@@ -82,6 +82,9 @@ app.use("/"     , index);	//the homepage set to the route in index variable.
 app.use("/users", users);
 app.use("/notes", notes);
 
+app.use(function(req,res){
+  res.render("notFound");
+});
 //initialize server
 var port=3000;
 app.set('port', (process.env.PORT || port));
