@@ -33,11 +33,11 @@ router.get('/login', function(req, res){
 });
 
 // Register Page - GET
-/*
+
 router.get('/signup', function(req, res){
-  res.render('signup');
+  res.redirect('/users/login');
 });
-*/
+
 // Register - POST
 router.post('/signup',function(req,res){
    db.users.findOne({username:req.body.name}, function(err, user){

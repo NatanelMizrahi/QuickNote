@@ -1,6 +1,6 @@
 var membersOnly=true;
 var mongojs=require('mongojs');
-var db=mongojs('usersDB',['users']); //(DB,collections)
+var db=mongojs('mongodb://admin:netenel@ds227035.mlab.com:27035/quicknote',['users']); //(DB,collections)
 var express=require('express');
 var router=express.Router();
 module.exports= router;
