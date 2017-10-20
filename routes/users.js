@@ -1,6 +1,6 @@
 
 //test.sayHi();
-var siteURL="http://localhost:3000";
+var siteURL="https://quicknote3.herokuapp.com"; //http://localhost:3000
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
@@ -16,7 +16,6 @@ var templates= require('../utils/email-template');
 var validator= require('../utils/formValidation');
 
 router.put("/", function(req,res){
-  console.log("checking server match");
   var query={};
   var key= req.body.key;
   var value= req.body.value;
@@ -123,7 +122,7 @@ passport.deserializeUser(function(id, done) {
 passport.use(new FacebookStrategy({
     clientID: 1919670618359882,
     clientSecret: '87efe5e123d6c6e28ff1a8f7e597fdd0',
-    callbackURL: "http://localhost:3000/users/facebookLogin/callback",
+    callbackURL: siteURL+"/users/facebookLogin/callback",
     profileFields: ['id', 'displayName', 'photos', 'emails'],
     passReqToCallback:true,
   },
@@ -239,7 +238,7 @@ function sendpass(req, res, next){
               pass: 'qweqwe343'
             }
           });
-          var resetUrl= "http://"+req.headers.host+'/users/resetPassword/'+token;
+          var resetUrl= "https://"+req.headers.host+'/users/resetPassword/'+token;
           templates.pwdRestore(user, resetUrl , function(err, htmlBody){
             var options = {
               from: 'QuickNote <testpassrestore@gmail.com>',

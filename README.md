@@ -31,6 +31,8 @@ QuickNote is a simple and intuitive mobile-friendly note editor.
 **Technologies and libraries used:**
 * jQuery
 * Node.js
+* Express framework
+* MongoDB
 
 
 
