@@ -93,10 +93,11 @@
 		</div>
 		<%- include('includes/scripts') %>
 		<script>
+			//cancel beforeunload function
 			function unload(){
-				console.log("dude");
 				window.onbeforeunload=undefined;
 			}
+
 			$(function(){
 				//paste without style
 				/*$(".notepad").on('paste',function(e){
@@ -106,24 +107,18 @@
 					 console.log(notepad.html());
 					 console.log($(this).text());
 				});*/
-				//ensure navigation out of page
-				
-				/*$(".notepad").select(function(){
-					console.log('crap');
-					var text=window.getSelection().getRangeAt(0);
-					var div=document.createElement('span');
-					div.style.background='yellow';
-					text.surroundContents(div);
-				});
+				//title capitalize first letter					//TODO fix
+				/*$("#noteTitle").on('keydown',function(e){
+					console.log(e);
+					var charmap="abcdefghijklmnopqrstuvwxyz";
+					console.log(charmap.indexOf(e.key));
+					if($(this).val()=="" && charmap.indexOf(e.key)>=0){
+						$(this).val(e.key.toUpperCase());
+							e.preventDefault();
+					}
 			});*/
 			
-			//coming soon on hover
-			$("#emailBtn").hover(function(){
-				$(this).text("Coming Soon!");		
-			}, function(){
-				$(this).html(`	<span class="glyphicon glyphicon-envelope"></span>&nbsp; <span class="mobile-xs-hidden">&nbsp; Add e-mail reminder</span>`);
-			});
-			//initialize
+			//config
 			var toggleDuration=500;
 			var fadeDelay=1000;
 			var unloadCheck=false;
@@ -138,7 +133,13 @@
 					return msg;
 				};
 			}
-			//cancel beforeunload
+
+			//"coming soon!" on hover
+			$("#emailBtn").hover(function(){
+				$(this).text("Coming Soon!");		
+			}, function(){
+				$(this).html(`	<span class="glyphicon glyphicon-envelope"></span>&nbsp; <span class="mobile-xs-hidden">&nbsp; Add e-mail reminder</span>`);
+			});
 
 			//ajax error handler
 			function ajaxError(xhr,stat, err){
@@ -151,6 +152,7 @@
 		 		$('#noteBody').val("Oops! Something went wrong. There was an error loading the note. Please try again later.");
 		 	}
 
+		 	//render all the notes in note list
 			function renderNotes(notes){
 				if(notes.length==0){	//no notes
 					$("#sortBy").hide();
@@ -159,7 +161,8 @@
 				} else {
 					$("#sortBy").show();
 					$('#empty-msg').hide();
-				}	//render notes from array
+				}	
+				//render notes from array
 				$(".note-list").html("");
 					notes.forEach(function(note){
 						$(".note-list").append(
@@ -171,9 +174,11 @@
 									${new Date(parseInt(note.modified)).toString().substring(4,21)}
 								</span>
 							</div>`);
+						//format date..
 				});
 			}
 
+			//render the note body
 			function renderNotebyID(noteID){
 				if(noteID=='new'){
 					$('#noteTitle').val("Untitled");
@@ -194,16 +199,7 @@
 			}
 
 			//******CLICK EVENT HANDLERS*****//
-			//title capitalize first letter					//TODO fix
-			/*$("#noteTitle").on('keydown',function(e){
-				console.log(e);
-				var charmap="abcdefghijklmnopqrstuvwxyz";
-				console.log(charmap.indexOf(e.key));
-				if($(this).val()=="" && charmap.indexOf(e.key)>=0){
-					$(this).val(e.key.toUpperCase());
-						e.preventDefault();
-				}
-			});*/
+
 			//new note
 			//////////////////////////
 			$("#newBtn").click(function(e){
@@ -211,7 +207,6 @@
 				if($("#noteID").val()!=="new"){
 					$("#note-msg").text("Autosaving..");
 					$("#note-msg").show(1000);
-
 				}
 				$("#saveBtn").click();
 				$("#noteID").val("new");
@@ -229,7 +224,6 @@
 					$("#note-msg").delay(fadeDelay).hide(toggleDuration, function(){ $(this).stop(true,false);});
 				}
 				renderNotebyID(noteID);
-				
 			});
 
 			//delete
@@ -257,10 +251,6 @@
 							var nextNoteID=$(".note-list a").first().attr('noteID');
 							renderNotebyID(nextNoteID);
 						}
-						
-						
-						
-
 					},
 					error: function(xhr,stat, err){ ajaxError(xhr,stat,err);}
 				});

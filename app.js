@@ -82,6 +82,7 @@ app.use("/"     , index);	//the homepage set to the route in index variable.
 app.use("/users", users);
 app.use("/notes", notes);
 
+//404 not found page
 app.use(function(req,res){
   res.render("notFound");
 });

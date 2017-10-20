@@ -1,10 +1,10 @@
 
-//test.sayHi();
 var siteURL="https://quicknote3.herokuapp.com"; //http://localhost:3000
+
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://admin:netenel@ds227035.mlab.com:27035/quicknote', ['users']); //usersDB
+var db = mongojs('mongodb://admin:netenel@ds227035.mlab.com:27035/quicknote', ['users']);
 var bcrypt = require('bcryptjs');
 var crypto=require('crypto');
 var passport = require('passport');
@@ -15,36 +15,33 @@ var nodemailer=require('nodemailer');
 var templates= require('../utils/email-template');
 var validator= require('../utils/formValidation');
 
-router.put("/", function(req,res){
+//check if username/email exists in DB
+router.put("/", function(req,res){  //TODO should be a get request but ajax doesn't pass data
   var query={};
   var key= req.body.key;
   var value= req.body.value;
-  query[key]=value;
-  console.log(query);
+  query[key]=value; //creates the query object with key:value pair
   db.users.findOne(query, function(err, user){
     if(err) throw err;
-    return res.send({isExist: user? true: false});
+    return res.send({isExist: user ? true: false});
   });
 });
+
 // Login Page - GET
 router.get('/login', function(req, res){
   res.render('login');
 });
 
-// Register Page - GET
-
-router.get('/signup', function(req, res){
-  res.redirect('/users/login');
-});
-
 // Register - POST
 router.post('/signup',function(req,res){
+   //check name duplicate
    db.users.findOne({username:req.body.name}, function(err, user){
       if(err) throw err;
       if(user){ 
         req.flash("error", "Username taken. Choose a different username."); 
         return res.redirect('/users/login');
       }
+      //check email duplicate
       db.users.findOne({email:req.body.email}, function(err, user){
         if (err) throw err;
         if(user){ 
@@ -52,20 +49,22 @@ router.post('/signup',function(req,res){
             return res.redirect('/users/login');
         }
         var password=req.body.password; 
+        //hash password
         bcrypt.genSalt(10,function(err,salt){
           if(err) {return done(err); }
           bcrypt.hash(password, salt, function(err,hash){
             if(err) { return done(err);}
+            //create user
             var user={
               username: req.body.name,
               email: req.body.email,
               phone: req.body.phone,
               password: hash
             }
+            //insert user to DB
             db.users.insert(user,function(err,result){
               if(err){ return done(err); }
-              req.flash("success", "Registration complete. You may now log in.")
-              console.log("registered ", user.username);
+              req.flash("success", "Registration complete. You may now log in.");
               sendRegistrationEmail(user);
               res.render("homepage");
           });
@@ -73,8 +72,9 @@ router.post('/signup',function(req,res){
       }); 
     });
   });
-}); //sorry for the callback hell..works fine
+}); //sorry for the callback hell..
 
+//welcome email for new users
 function sendRegistrationEmail(user){
   var transporter=nodemailer.createTransport({
     host: 'smtp.gmail.com',
@@ -85,6 +85,7 @@ function sendRegistrationEmail(user){
       pass: 'qweqwe343'
     }
   });
+  //generate HTML to be sent by the register template in the custom module for email templates, with the user's data.
   templates.register(user, function(err,htmlBody){
     var options={
       from: 'QuickNote <testpassrestore@gmail.com>',
@@ -105,7 +106,7 @@ function sendRegistrationEmail(user){
   
 }
 
-//PASSPORT
+//PASSPORT AUTHENTICATION
 passport.serializeUser(function(user, done) {
   done(null, user._id);
 });
@@ -131,7 +132,7 @@ passport.use(new FacebookStrategy({
     db.users.findAndModify({
       query:{ username: profile.displayName},
       update:{$set:{ username: profile.displayName }},
-      upsert: true, //create if it doesn't
+      upsert: true, //create if it doesn't exist
       new:true
     },
      function (err, user) {
@@ -157,6 +158,7 @@ router.get('/facebookLogin/callback',
 
 //***local strategy*****/
 passport.use(new LocalStrategy({
+      //set field names
       passReqToCallback:true,
       usernameField: 'username',
       passwordField: 'password'
@@ -164,9 +166,11 @@ passport.use(new LocalStrategy({
   function(req, username, password, done){
     db.users.findOne({$or: [{username: username},{email:username}] }, function(err, user){
       if(err) { return done(err); }
+      //no user found with the submitted username/email
       if(!user){
         return done(null, false, req.flash('error', "Invalid username or email."));
       }
+      //user found
       bcrypt.compare(password, user.password, 
         function checkPassword(err, match){
           if(err) { return done(err); }
@@ -179,20 +183,23 @@ passport.use(new LocalStrategy({
   }
 ));
 
+
 router.post('/login', function(req, res, next) {
+  //custom passport callback
   passport.authenticate('local', function(err, user, info) {
     if (err) { return next(err); }
     if (!user) { return res.redirect('/users/login'); }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
       req.flash('success', "Welcome " + user.username+", you are now logged in."); 
+      //if logged in frm login page, redirect to index, otherwise go to the previous page
       var url= req.header('Referer')===siteURL+"/users/login" ? "/" : 'back';
       return res.redirect(url);
     });
   })(req, res, next);
 });
 
-//logout
+//Logout
 router.get('/logout',function(req, res){
   req.logout();
   req.flash('success', 'You have logged out');
@@ -200,12 +207,15 @@ router.get('/logout',function(req, res){
 });
 
 
+//******PASSWORD RESET*********//
+
 //password reset email
 router.post('/resetPassword', sendpass, function(req, res){
   req.flash('success', 'Email sent. check your inbox.');
   res.redirect('/users/login');
 });
 
+//send the reset password email
 function sendpass(req, res, next){
   var email= req.body.email;
   console.log(email);
@@ -215,17 +225,19 @@ function sendpass(req, res, next){
       req.flash('error', 'No user found with this email.');
       return res.render('login');
     }
+    //generate random characters
     crypto.randomBytes(32, function(err, bytes){
       var token= bytes.toString('hex');
       db.users.findAndModify({
         query:{_id: user._id},
         update:{
           $set: {
+            //set a unique token that expires in 24 hours
             'restorePasswordToken': token,
             'restoreTokenExpiry': Date.now()+ 24*60*60*1000,
           }
         },
-        new:true    
+        new:true    //return the new user with the token
         }, function(err, user){
           if(err) { throw err;}
           var transporter = nodemailer.createTransport({
@@ -265,12 +277,13 @@ function sendpass(req, res, next){
 //password reset page
 router.get('/resetPassword/:resetToken', function(req,res){
   var resetToken= req.params.resetToken;
-  console.log(resetToken);
+  //find a user with the reset token in the url that has not expired
   db.users.findOne({restorePasswordToken: resetToken, restoreTokenExpiry: {$gt:Date.now()}},
   function(err,user){
     if(err) throw err;
+    //
     if(!user){
-      req.flash("error","Temporary password has expired. Please resend password reset email.");
+      req.flash("error","Temporary password has expired, or the address you typed was incorrect. Please resend password reset email.");
       return res.redirect('/users/login');
     }
     return res.render('resetPassword', {user:user, resetToken:resetToken});
@@ -278,6 +291,7 @@ router.get('/resetPassword/:resetToken', function(req,res){
   );//findOne
 });
 
+//reset password POST- user attempts to change password
 router.post('/resetPassword/:resetToken', function(req, res){
   var resetToken= req.params.resetToken;
   db.users.findOne({restorePasswordToken: resetToken, restoreTokenExpiry: {$gt: Date.now()}},
@@ -311,7 +325,7 @@ router.post('/resetPassword/:resetToken', function(req, res){
           }, function(err, user){
             if(err) throw err;
             console.log("pass changed ",user.username);
-            req.flash('success', 'Password changed successfully. You may now log in.')
+            req.flash('success', 'Your password was changed successfully. You may now log in.')
             return res.redirect('/users/login');
           }); //findAndModify
         }); //hash
