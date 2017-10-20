@@ -1,16 +1,15 @@
 {
-  "name": "pkg",
-  "version": "1.0.0",
-  "description": "simple server",
-  "main": "app.js",
-  "engines":{
+  "name": "node-js-getting-started",
+  "version": "0.2.6",
+  "description": "A sample Node.js app using Express 4",
+  "engines": {
     "node": "6.11.1"
   },
+  "main": "app.js",
   "scripts": {
-    "start": "nodemon"
+    "start": "node app.js",
+    "test": "node test.js"
   },
-  "author": "Nate",
-  "license": "ISC",
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.1",
@@ -30,5 +29,20 @@
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
-  }
+    "styliner": "^1.0.3"
+  },
+  "devDependencies": {
+    "request": "^2.81.0",
+    "tape": "^4.7.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/heroku/node-js-getting-started"
+  },
+  "keywords": [
+    "node",
+    "heroku",
+    "express"
+  ],
+  "license": "MIT"
 }
