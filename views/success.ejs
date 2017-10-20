@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<title>Signup|Sitename</title>
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+		<link rel="stylesheet" href="C:/Users/נתנאל/Desktop/bootstrap/addstyle.css">
+	</head>
+	<body>
+		<div class="container">
+		<div class="jumbotron alert-info">
+		  <h1 class="display-3">Welcome, <%= (!!locals.name) ? name : "" %></h1>
+		  <p class="lead">Welcome to ****</p>
+		  <hr class="my-4">
+		  <%- messages() %>
+		  <p>message for new user..</p>
+		  <p class="lead">
+		    <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+		  </p>
+		</div>
+		</div>
+	</body>
+</html>

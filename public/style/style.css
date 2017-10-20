@@ -1,0 +1,501 @@
+*{ box-sizing: border-box;}
+
+
+/****navbar****/
+#messages{
+	max-width: 30em;
+}
+#messages ul li{	/*express messages*/
+	list-style: none;
+	text-shadow: none;
+}
+.spacer, .nav{
+	height:53px;
+}
+.spacer{
+	display: block;
+}
+.nav{
+	display: block;
+	clear: both;
+	width:100%;
+	position:fixed;
+	padding:3px;
+	background:/*url('/images/dark-bg.jpg'),*/
+				#333233;
+	z-index:15;
+}
+.nav ul a li{
+	border:0px solid transparent;
+	list-style: none;
+	display: inline-block;
+	float:left;
+	padding:15px;
+	font-family: 'Raleway', 'Varela Round', sans-serif;
+	color:#eee;
+}
+.nav ul a li:hover{
+	border-bottom: 3px solid #aaa;
+	padding-bottom: 13px;
+	color: #aaa;
+}
+
+#logo{
+	display:inline-block;
+	float: left;
+	position: relative;
+	padding: 10px 0 3px 0;
+	margin:0 -10px 0 -5px;
+	width: 55px;
+	height:100%;
+}
+.nav-msg{
+	font-size: 1.2em;
+}
+
+
+.login-box{
+	position: relative;
+	float: right;
+	border-radius:0 0 20px 20px;
+	padding:10px;
+	padding-top: 0;
+	margin-top: -3px;
+	min-height: 20px;
+	min-width:20px;
+	z-index: 15;
+}
+.login-box .form-inline .form-control{
+	width:120px;
+}
+.login-btn{
+	display: none;
+}
+#fbLogin{
+	background:#3b5998;
+	color:white;
+}
+@media screen and (max-width: 1000px){
+	.login-box{
+		position: relative;
+		float: right;
+		clear:both;
+		border-radius:0 0 20px 20px;
+		padding:10px;
+		min-height: 20px;
+		min-width:20px;
+		max-width:50%;
+		background: rgba(170,170,170, 0.8);
+	}
+	.login-box .form-inline .form-control{
+		width:120px;
+	}
+}
+@media screen and (max-width: 650px){
+	.login-box{
+		display: none;
+	}
+	.login-btn{
+		display: inline-block;
+	}
+}
+.register-box{
+	position: relative;
+	float: right;
+	/*left:50%;*/
+	margin-left:10px;
+	padding:10px;
+	padding-top: 0;
+	color: #fff;
+	font-weight: bold;
+	text-shadow: 2px 2px 10px black;
+	z-index: 15;
+}
+
+@media screen and (max-width: 700px){
+	.mobile-hidden{
+		display: none;
+	}
+}
+@media screen and (max-width: 480px){
+	.nav ul a li{ 
+		padding-left: 5px; 
+		padding-right: 5px; 
+		font-size: 0.9em;
+	}
+	#logo{ 
+		height:85%; 
+		width:50px; 
+	}
+	.nav .btn{ 
+		padding: 5px 10px;
+  		font-size: 12px;
+  		line-height: 1.5;
+  		border-radius: 3px;
+	}
+	.register-box{
+		padding: 0;
+		margin: 0;
+	}
+}
+
+/***FX and glyphs******/
+.float{
+	transition: transform 0.3s ease-in-out;
+	-ms-transform: translate(0, 0); /* IE 9 */
+    -webkit-transform: translate(0, 0); /* Safari */
+    transform: translate(0, 0);	/*default*/
+}
+.float:hover{
+	transition: transform 0.3s ease-in-out;
+	-ms-transform: translate(0, -10%); /* IE 9 */
+    -webkit-transform: translate(0, -10%); /* Safari */
+    transform: translate(0, -10%);	/*default*/
+}
+.fade-b{
+	transition: background 0.5s;
+	border-color:black !important;
+	opacity: 1;
+}
+.fade-b:hover{ 
+	background: black;
+	opacity: 0.9;
+	border-color: black;
+	transition: background 0.5s;
+}
+/***copied*****/
+.chevron::before {
+	border-style: solid;
+	border-width: 0.15em 0.15em 0 0;
+	content: '';
+	display: inline-block;
+	height: 0.45em;
+	left: 0.15em;
+	margin-right: 10px;	
+	position: relative;
+	top: 0.38em;
+	transform: rotate(-45deg);
+	vertical-align: top;
+	width: 0.45em;
+}
+
+.chevron.bottom:before{
+	top: 0.4em;
+	transform: rotate(135deg);
+}
+
+
+/* enable absolute positioning */
+.inner-addon { 
+    position: relative; 
+}
+
+/* style icon */
+.inner-addon .glyphicon {
+  position: absolute;
+  padding: 10px;
+  pointer-events: none;
+}
+
+/* align icon */
+.left-addon .glyphicon  { left:  0px;}
+ .right-addon .glyphicon { right: 0px;}
+
+/* add padding  */
+.left-addon input  { padding-left:  30px; }
+.right-addon input { padding-right: 30px; }
+
+/****disable number field arrows***/
+input::-webkit-outer-spin-button,
+input::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin:0;
+}
+
+
+/****jumbotron****/
+.text-fade{
+	position: relative;
+	animation: text-fade 0.7s ease-in-out;
+}
+@keyframes text-fade{
+	from{left:-50px;opacity:0;}
+	to{left:0px;opacity:1;}
+}
+
+.cover{
+	background: linear-gradient(rgba(0,0,0,0.6),rgba(0,0,0,0.6)), url('/images/notepad-dark.jpg') no-repeat fixed; /*gradient darkens bg*/
+	background-position: 0px -100px;
+	background-size: cover;
+	color:white;
+	font-family: 'Raleway', 'Varela Round', arial;
+	font-weight: bold;
+	text-shadow: 2px 2px 7px black;
+}
+
+
+/******forms*******/
+.profile-pic{
+	position: relative;
+	text-align: center;
+	border-radius:50%;
+	display: inline-block;
+	height:40%; width: 32%;
+	z-index: 0;
+	animation: pic 1s ease;
+
+}
+@keyframes pic{
+	from{ height:30%; width: 24%}
+	to  { height:40%; width: 32%}
+}
+body {
+  background-color: #eee;
+}
+/***copied from bootstrap form example***/
+.form-modal{
+	text-align: center;
+}
+.form-signin {
+  max-width: 330px;
+  padding: 20px 20px 30px 20px;
+  margin: 0 auto;
+  border: 1px solid #aaa;
+  border-radius: 7px;
+  background: #f5f5f5;
+}
+.form-signin .form-signin-heading,
+.form-signin .checkbox {
+  margin-bottom: 10px;
+}
+.form-signin .checkbox {
+  font-weight: normal;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.input-group{
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+
+/***notes***/
+.dark-bg{
+	background: url("/images/dark-bg.jpg");
+}
+#note-msg{
+	color:white;
+	display: block;
+	padding-bottom: 5px;
+}
+.notepad{
+	padding-left: 2.3em;
+	display: block;
+	clear: both;
+	padding-right:1em;
+	background:	url("/images/redline.jpg") 2em 0px repeat-y, linear-gradient(to right, transparent 2em, transparent 2.1em, transparent 100%),
+				repeating-linear-gradient(#ffff99, #ffff99 2em, #aaa 2.1em, #ffff99 2.1em);
+	color:black;
+	width:23em;
+	height:27em;
+	min-width: 23em;
+	max-width: 60em;
+	min-height: 20em;
+	max-height: 40em;
+	line-height: 2.1em;
+	border-radius: 7px;
+}
+
+.notepad::selection{
+	background: #bababa;
+}
+
+.text-area{
+	background: #ddd;
+	border-radius: 10px;
+	line-height: 1.7em;
+	margin:20px;
+}
+/**copied from stack overflow**/
+.color-tooltip + .tooltip > .tooltip-inner {background-color: #567;}
+.color-tooltip + .tooltip > .tooltip-arrow { border-top-color:#567; }
+/***/
+
+.note-wrapper, .note-list-wrapper{
+	background: rgba(0,0,0,0.5);
+	padding: 20px;
+	margin-top: 2em;
+}
+.note-wrapper{ /** to fit content's width**/
+	display: inline-block;
+
+}
+.note-list-wrapper{
+	display: inline-block;
+	width: 100%;
+	min-height:40.5em;
+	padding-right: 5px;
+	padding-left: 10px;
+	overflow-x: hidden;
+}
+.note-wrapper .btn:active{
+	background: #333;
+	color:white;
+}
+.note-wrapper ul{
+	margin:0;
+	padding: 0;
+}
+.note-wrapper ul li{
+	position: relative;
+	list-style: none;
+	float:left;
+	margin-right: 1em;
+	margin-bottom: 1em;
+}
+.note-title{
+	width:23em;
+	display: block;
+	clear: both;
+	background: #ffff99;
+	font-weight: bold;
+	font-family: 'Raleway', 'Varela Round', sans-serif;
+	color:brown;
+}
+.capitalize::first-letter{
+	text-transform: uppercase;
+}
+.tooltip{
+	white-space: pre-line;	
+}
+.note-list{
+	overflow-y: auto;
+	overflow-x: hidden;
+	max-height: 20em;
+	padding: 0 10px;
+}
+.note-list li:hover{
+	background: #444;
+	color:white;
+}
+.note-list li{
+	display: inline-block;
+	list-style: none;
+	margin: 5px;
+	float:left;
+	position: relative;
+	padding:5px 10px 5px 10px;
+	border-radius: 7px;
+	background: #ccc;
+	font-weight: bold;
+	font-size: 1.2em;
+	font-family: 'Raleway','Varela Round', sans-serif;
+	min-width: 14em;
+	overflow: hidden;
+}
+.note-list-wrapper h2,
+.note-list-wrapper h3,
+.note-list-wrapper p,
+.note-list-wrapper span{
+	color:white;
+	font-family: 'Varela Round','Raleway', arial;
+}
+
+#emailBtn:hover{
+	background: #222;
+	color:#eee;
+}
+
+.date{
+	position: relative;
+	margin-top: 10px;
+	margin-left: 10px;
+	margin-right: 0px;
+	float:left;
+	padding: 6px;
+	background: rgba(153, 38, 0, 0.3); /*#992600*/
+	font-size: 0.9em;
+}
+
+#sortBy{
+	width: 10em;
+	font-size: 1.2em;
+	background: #ddd;
+	border-radius: 7px;
+	line-height: 1.5em;
+	height: 2em;
+	padding:5px;
+	margin-bottom: 10px;
+	margin-left: 0px;
+	display: block;
+}
+
+hr{
+	opacity: 0.3;
+}
+@media screen and (max-width: 1200px){
+	.note-list-wrapper{
+		min-height: 0;
+	}
+}
+@media screen and (max-width: 480px){
+	.mobile-xs-hidden{ display:none; }
+	.date{ background: transparent; margin-top: 0; }
+	.note-wrapper, .note-list-wrapper{ margin-left:0; margin-right: 0; width: 100%; min-height: 0;}
+	.notepad, .note-title, .note-list li{ min-width: 95%; width:95%;}
+	.notepad{ height:20em;}
+	.note-wrapper ul li{ margin-right:5px;}
+	#sortBy{ font-size: 1em; }
+}
+
+/***bootstrap footer ****/
+html {
+  position: relative;
+  min-height: 100%;
+}
+body {
+  /* Margin bottom by footer height */
+  margin-bottom: 60px;
+}
+.footer {
+  position: absolute;
+  padding-top: .6em;
+  bottom: 0;
+  width: 100%;
+  height: 4em;
+  line-height: 1.5em; /* Vertically center the text there */
+  background-color: rgba(68,68,68, 0.7);
+  text-align: center;
+}
+.footer-icon{
+	height: 1.6em;
+	vertical-align: text-center;
+	margin-top: -5px; 
+	margin-left: 5px;
+	opacity: 0.6;
+} 
+.footer-icon:hover{
+	opacity: 1;
+}
+
+/***copied and changed from w3schools****/
+.loader {
+    border: 5px solid #f3f3f3; /* Light grey */
+    border-top: 5px solid #3498db; /* Blue */
+    border-radius:50%;
+    width: 40px;
+    height: 40px;
+    animation: spin 1s ease-out infinite;
+    margin:0 auto;	/**center**/
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}

@@ -1,0 +1,11 @@
+<svg x="0" y="0" width="512" height="512" version="1.1"
+    xmlns="http://www.w3.org/2000/svg"
+    xmlns:xlink="http://www.w3.org/1999/xlink" viewBox="0 0 512 512">
+    <title>sticky note icon</title>
+    <desc>sticky note icon from the IconExperience.com G-Collection. Copyright by INCORS GmbH (www.incors.com).</desc>
+    <g>
+        <path d="M240,32l-200,0c-4.4,0 -8,3.6 -8,8l0,432c0,4.4 3.6,8 8,8l432,0c4.4,0 8,-3.6 8,-8l0,-296c0,-8.8 -3.6,-16.85 -9.4,-22.65l-214.85,-117.2c-5.05,-2.75 -9.95,-4.15 -15.75,-4.15z" fill="#ffed58"/>
+        <path d="M34.35,477.65c1.45,1.45 3.45,2.35 5.65,2.35l432,0c4.4,0 8,-3.6 8,-8l0,-296c0,-8.8 -3.6,-16.85 -9.4,-22.65l-72.45,-39.5z" fill="#fbd734"/>
+        <path d="M240,32c5.75,0 10.7,1.4 15.75,4.15l206.5,112.45c-8.05,-1.4 -16.65,0.25 -23.85,5.3l-59,41.3c-3.6,2.5 -8.55,1.6 -11.15,-2l-107.6,-148.05c-5,-6.9 -12.25,-11.65 -20.65,-13.15z" fill="#f7a724"/>
+    </g>
+</svg>

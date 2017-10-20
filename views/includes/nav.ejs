@@ -1,0 +1,94 @@
+<!-- navbar + signup form modal -->
+<nav class="nav">
+	<a href="/"><img id="logo" class="float" src="/images/sticky_note.svg" href="#"></a>
+	<ul>
+		<a href="/" class="mobile-hidden"><li>Home</li></a>
+		<a href="/notes"><li>Notes</li></a>
+		<a href="/todo"><li class="fade-b">To Do</li></a>
+		<a href="/about"><li>about</li></a>
+	</ul>
+
+	<div class="register-box">
+		<% if (!locals.user){ %>
+			<span class="nav-msg mobile-hidden">Not registered? &nbsp&nbsp</span>
+			<button class="btn btn-danger btn-md" data-toggle="modal" data-target="#signup-modal">Sign up</button>
+			<button class="login-btn btn btn-success btn-md" onclick='window.onbeforeunload=undefined; location.href="/users/login";'>Login</button>
+		<% } else{ %>
+			<span class="nav-msg mobile-hidden">Welcome, <%= user.username %> &nbsp&nbsp</span>
+			<button class="btn btn-danger btn-md" onclick='location.href="/users/logout";'>Logout</button>
+		<% } %>
+	</div>
+
+	<% if (!locals.user){ %>
+	<div class="login-box">	
+			<form method="post" action="/users/login" id="login" class="form-inline">
+				  <input name="username" type="text" class="form-control" id="username" value="" placeholder="Username">
+				  <input name="password" type="password" class="form-control" id="user-password" value="" placeholder="Password">
+				  <button type="submit" class="btn btn-success" onclick="window.onbeforeunload=undefined;">Login</button>
+			</form>
+	</div>
+	<% } %>
+</nav>
+<!--spacer-->
+<div class="spacer"></div>
+
+<!--signup modal-->
+<div id="signup-modal" class="modal fade">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header alert alert-warning">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+        <h2 class="modal-title"><b>Sign Up</b></h2>
+      </div>
+      <div class="modal-body">
+        <form method="post" action="/users/signup" id="signup">
+			  <div class="form-group">
+				  <div class="inner-addon left-addon">
+    				<i class="glyphicon glyphicon-user"></i>
+    					<input name="name" type="text" class="form-control" id="name" placeholder="Username">
+				</div>
+			  </div>
+			  <div class="row form-group">
+				  <div class="form-group col-lg-7">
+				  	<div class="inner-addon left-addon">
+    					<i class="glyphicon glyphicon-envelope"></i>
+				    	<input name="email" type="text" class="form-control" id="email" placeholder="Email">
+				    </div>
+				    </div>
+				  <div class="col-lg-5">
+				  	<div class="inner-addon left-addon">
+    					<i class="glyphicon glyphicon-earphone"></i>
+				    	<input name="phone" type="number" class="form-control" id="phone" placeholder="Phone number">
+				  </div>
+			</div>
+			</div>
+			<div class="form-group">
+			     <div class="inner-addon left-addon">
+    				<i id="pw-icon" class="glyphicon glyphicon-lock"></i>
+			      	<input name="password" type="password" class="form-control" id="password" placeholder="Password" maxlength="15">
+			     </div>
+			 </div>
+			 <div class="form-group">
+			    <div class="inner-addon left-addon">
+    				<i id="pw2-icon" class="glyphicon glyphicon-lock"></i>
+			    	<input name="password2" type="password" class="form-control" id="pwconfirm" placeholder="Password confirmation" maxlength="15">
+			    </div>
+
+			 </div>
+			 <p class="small red">Password must be at least 6 characters long, and contain letters and numbers only.</p>
+			 <br>
+			 <div class="form-group">
+			 	<!--required-->
+			    <input type="checkbox" class="form-check-input" id="terms"> I accept the <a href="https://termsfeed.com/terms-conditions/9c926d453f51b42f3e255d60ff43f961" target="_blank">Terms & conditions</a>.
+			 </div>
+			 <div id="alert" class=""></div>
+      </div>
+      <div class="modal-footer alert alert-warning">
+        <button type="submit" class="btn btn-success">Submit</button>
+      </div>
+      </form>
+    </div>
+  </div>
+</div>
