@@ -38,7 +38,7 @@ app.use('/bootstrap', express.static(path.join(__dirname +'/node_modules/bootstr
 //express-session
 //depends on cookie parser - built in for express 4.0
 app.use(session({
-  secret: 'keyboard cat',
+  secret: '60d31eb37595dd44584be5ef363283e3',
   resave: true,					//TODO : sometimes no flash when true
   saveUninitialized: true,
   cookie: { maxAge : 10*60*1000 } //session lasts 10 minutes

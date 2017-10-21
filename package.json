@@ -1,7 +1,7 @@
 {
-  "name": "node-js-getting-started",
+  "name": "Quicknote",
   "version": "0.2.6",
-  "description": "A sample Node.js app using Express 4",
+  "description": "Simple note editor",
   "engines": {
     "node": "6.11.1"
   },
@@ -21,7 +21,6 @@
     "express": "^4.15.4",
     "express-messages": "^1.0.1",
     "express-session": "^1.15.5",
-    "express-session-passport-cleanup": "^1.0.3",
     "express-validator": "^4.1.1",
     "mongojs": "^2.4.1",
     "nodemailer": "^4.1.2",
@@ -29,7 +28,6 @@
     "passport": "^0.4.0",
     "passport-facebook": "^2.1.1",
     "passport-local": "^1.0.0",
-    "styliner": "^1.0.3"
   },
   "devDependencies": {
     "request": "^2.81.0",
@@ -42,7 +40,8 @@
   "keywords": [
     "node",
     "heroku",
-    "express"
+    "express",
+    "notes"
   ],
-  "license": "MIT"
+  "license": "Free to use"
 }
