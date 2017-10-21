@@ -2,6 +2,9 @@
 
 QuickNote is a simple and intuitive mobile-friendly note editor.
 
+It's my first project involving Node.js. Please leave comments and suggestions!
+
+
 [Go to QuickNote!](https://quicknote3.herokuapp.com/ "QuickNote")
 
 
