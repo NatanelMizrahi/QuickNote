@@ -1,13 +1,14 @@
 var membersOnly=true;
 var mongojs=require('mongojs');
-var db=mongojs('mongodb://admin:netenel@ds227035.mlab.com:27035/quicknote',['users']); //(DB,collections)
+var config= require('../config');
+var db=mongojs(config.MONGODB_URI,['users']); //(DB,collections)
 var express=require('express');
 var router=express.Router();
 module.exports= router;
-
 router.get('/', function(req,res){
 	res.render('notes');
 });
+
 
 function isLoggedIn(req, res, next){
 	if(!membersOnly || req.isAuthenticated()){ return next();}
@@ -57,13 +58,11 @@ router.put("/", isLoggedIn, function(req,res){
 			} 
 			db.users.findOne({_id:id}, function(err, user){
 			 if(err) throw err;
-			 console.log(user.notes); 
 			 res.send(user.notes);});
 	});
 });
 router.get("/getNote/:noteID",isLoggedIn, function(req,res){
 	var user=req.user;
-	console.log("get note");
 	var noteID=parseInt(req.params.noteID);
 	db.users.find({_id: user._id, "notes.id": noteID}, {'notes.$': 1}, 
     	function(err,result){
@@ -71,20 +70,10 @@ router.get("/getNote/:noteID",isLoggedIn, function(req,res){
     		var note= result[0].notes[0]; 
     		res.send(note);
     	});
-	//db.users.find(  {_id: user._id , notes: {$elemMatch: {id: noteID}}},
-    
-	//db.users.find({_id: user._id, "notes.id": 4} , {'notes.$': 1} ,function(err,result){console.log(result[0]	.notes[0]);
-	//res.send(note);});
-	/*var note=db.users.aggregate([
-		{$match:{_id:"$user._id", "notes.id": noteID}},
-		{$unwind: "$notes"}
-		]);*/
-	
 });
 router.delete("/:noteID", isLoggedIn, function(req,res){
 	var user=req.user;
 	var noteID=parseInt(req.params.noteID);
-	console.log(noteID);
 	db.users.update( { _id: user._id },
 					 { $pull: { notes: { id: noteID } } },
 					 { multi:false }, 
@@ -142,7 +131,7 @@ router.post("/new", isLoggedIn, incrementNoteID, function(req,res){
 	req.noteID=undefined;
 	addNote(req,res,noteID);
 });
-					//TODO change to aggregate $project
+
 router.put("/sort", isLoggedIn, function(req,res){
 	var user=req.user;
 	var sortBy=req.body.sortBy;
@@ -165,68 +154,3 @@ router.put("/sort", isLoggedIn, function(req,res){
 		return res.send(user.notes);
 	}); 
 });
-
-/*var membersOnly=false;
-var mongojs=require('mongojs');
-var db=mongojs('notes',['notes']); //(DB,collections)
-var express=require('express');
-var router=express.Router();
-
-module.exports= router;
-
-router.get('/', isLoggedIn, function(req,res) {
-
-	res.render('notes');
-});
-
-function isLoggedIn(req, res, next){
-	if(!membersOnly || req.isAuthenticated()){ return next();}
-	res.redirect('/users/login');
-}
-
-router.get('/save',isLoggedIn, function(req,res) {
-	console.log(req.user);
-	var note={
-		title:"dddd",
-		content:'ajax returned this'
-	}
-	res.send(note);
-});
-
-router.post("/save/:noteID",function(req,res){
-	var title=req.body.title;
-	var body=req.body.body;
-	var userID= req.body.userID;
-	//console.log(userID);
-	db.users.findOne({userID: userID},function(err,user){
-		if(err) throw err;
-		if(!user){	//first entry
-			db.users.insert({
-				userID: userID,
-				notes: [{title: title, body:body}]
-			},
-			function(err,data){
-				console.log(data.userID," has notes:");
-				console.log(data.notes);
-				return res.send(data.notes[0]);
-			});//insert
-			console.log("fthis");
-			return;
-		}
-		//user found
-		db.users.findAndModify({
-					query:{userID:userID},
-					update:{
-						$push:{ notes: { title:title, body: body}	}
-					},
-					new:true
-				},
-				function resolveData(err,data){
-					console.log(data);
-					length=data.notes.length;
-					return res.send(data.notes[0]);
-				});//findAndModify
-	}); //find
-	console.log(req.params.noteid);
-	
-});*/

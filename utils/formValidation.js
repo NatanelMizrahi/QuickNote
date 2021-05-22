@@ -19,18 +19,6 @@ function validateEmail(){
 	
 	return toggleAlert(msg);
 }
-function validatePhone(){
-	var phone= phone_box.value;
-
-	var regexp=/0\d{9}/;
-	var msg=true;
-	var isValid=regexp.test(phone);
-	var msg=isValid? true : "Please enter a valid 10-digit mobile number, e.g. 050-1234567";
-	if(autofocus) {phone_box.focus();}
-	phone_box.className=isValid? "form-control": "form-control alert-danger"; 
-
-	return toggleAlert(msg);
-}
 
 function validatePW(){
 	var password=pw_box.value;
@@ -76,27 +64,10 @@ function validateTerms(){
 }
 
 function submitForm(e){
-	
-	var newUser;
-	if (nonRequired || validateName() && validateEmail() && validatePhone() && validatePW() && validateTerms()){
-		/*newUser={
-			name: name_box.value,
-			email:email_box.value,
-			phone: phone_box.value,
-			password:pw_box.value,
-		}
-		console.log(newUser);*/	
+	if (nonRequired || validateName() && validateEmail() && validatePW() && validateTerms()){}
+	else {
+		e.preventDefault();
 	}
-	else{e.preventDefault();}
-
-		//e.preventDefault();
-	/*$.ajax({
-			type: "POST",
-			url	: "/users/signup", 
-			data: newUser
-		});*/
-		//$.post("/users/signup/",{newUser:newUser},function(res,err){console.log(res);}); //doesn't work either
-		
 }
 
 module.exports={

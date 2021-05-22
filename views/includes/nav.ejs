@@ -50,20 +50,13 @@
     					<input name="name" type="text" class="form-control" id="name" placeholder="Username">
 				</div>
 			  </div>
-			  <div class="row form-group">
-				  <div class="form-group col-lg-7">
-				  	<div class="inner-addon left-addon">
-    					<i class="glyphicon glyphicon-envelope"></i>
-				    	<input name="email" type="text" class="form-control" id="email" placeholder="Email">
-				    </div>
-				    </div>
-				  <div class="col-lg-5">
-				  	<div class="inner-addon left-addon">
-    					<i class="glyphicon glyphicon-earphone"></i>
-				    	<input name="phone" type="number" class="form-control" id="phone" placeholder="Phone number" maxlength="10">
+
+			  <div class="form-group">
+				  <div class="inner-addon left-addon">
+					  <i class="glyphicon glyphicon-envelope"></i>
+					  <input name="email" type="text" class="form-control" id="email" placeholder="Email">
 				  </div>
-			</div>
-			</div>
+			  </div>
 			<div class="form-group">
 			     <div class="inner-addon left-addon">
     				<i id="pw-icon" class="glyphicon glyphicon-lock"></i>
@@ -81,12 +74,12 @@
 			 <br>
 			 <div class="form-group">
 			 	<!--required-->
-			    <input type="checkbox" class="form-check-input" id="terms"> I accept the <a href="https://termsfeed.com/terms-conditions/9c926d453f51b42f3e255d60ff43f961" target="_blank">Terms & conditions</a>.
+			    <input type="checkbox" class="form-check-input" id="terms"> I accept the <a href="https://choosealicense.com/licenses/wtfpl/" target="_blank">Terms & conditions</a>.
 			 </div>
 			 <div id="alert" class=""></div>
       </div>
       <div class="modal-footer alert alert-warning">
-        <button type="submit" class="btn btn-success">Submit</button>
+        <button id="signupSubmitBtn" type="submit" class="btn btn-success">Submit</button>
       </div>
       </form>
     </div>

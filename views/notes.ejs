@@ -93,31 +93,13 @@
 		</div>
 		<%- include('includes/scripts') %>
 		<script>
+			const baseUrl = `${window.location.protocol}//${window.location.host}`;
 			//cancel beforeunload function
 			function unload(){
 				window.onbeforeunload=undefined;
 			}
 
 			$(function(){
-				//paste without style
-				/*$(".notepad").on('paste',function(e){
-					e.preventDefault();
-					 var text = (e.originalEvent || e).clipboardData.getData('text/plain');
-					 document.execCommand('insertText', false, text);
-					 console.log(notepad.html());
-					 console.log($(this).text());
-				});*/
-				//title capitalize first letter					//TODO fix
-				/*$("#noteTitle").on('keydown',function(e){
-					console.log(e);
-					var charmap="abcdefghijklmnopqrstuvwxyz";
-					console.log(charmap.indexOf(e.key));
-					if($(this).val()=="" && charmap.indexOf(e.key)>=0){
-						$(this).val(e.key.toUpperCase());
-							e.preventDefault();
-					}
-			});*/
-			
 			//config
 			var toggleDuration=500;
 			var fadeDelay=1000;
@@ -187,7 +169,7 @@
 				}
 				$.ajax({
 					type:'GET',
-					url:"https://" + window.location.host + "/notes/"+"getNote/"+noteID,
+					url: baseUrl + "/notes/getNote/"+noteID,
 					dataType:'JSON',
 					success: function(note){
 						$('#noteTitle').val(note.title);
@@ -237,11 +219,10 @@
 					return;
 				}
 				$("#note-msg").text("deleting note: "+ $("#noteTitle").val() +"...").show(toggleDuration);
-				console.log(noteID);
 				$.ajax({
 					type:'DELETE',
 					dataType: 'JSON',
-					url:"https://" + window.location.host + "/notes/"+noteID,
+					url: baseUrl + "/notes/"+noteID,
 					success:function(notes){ 
 						$("#note-msg").delay(fadeDelay).hide(toggleDuration, function(){ $(this).stop(true,false);});
 						renderNotes(notes);
@@ -272,7 +253,7 @@
 				if(noteID==="new"){
 					$.ajax({
 						type:'POST',
-						url: "https://" + window.location.host + "/notes/new/",	//TODO change url
+						url: baseUrl + "/notes/new/",
 						data:{
 							title:title,
 							body:body,
@@ -290,7 +271,7 @@
 				else{	//update note
 				$.ajax({
 						type:'PUT',
-						url: "https://" + window.location.host + "/notes/",	//TODO change url
+						url: baseUrl + "/notes/",
 						data:{
 							noteID: noteID,
 							title:title,
@@ -313,7 +294,7 @@
 				var sortBy= $(this).val();
 				$.ajax({
 					type:'PUT',
-					url:"https://" + window.location.host + "/notes/sort",
+					url: baseUrl + "/notes/sort",
 					data:{sortBy: sortBy},
 					success: function(notes){ renderNotes(notes);}				
 				});
@@ -324,7 +305,6 @@
 			$('.note-list').on('click', 'a', function(){
 			//IMPORTANT! event delegation so that after appending a new "a" dynamic-child to ".note-list" static parent, the onclick event still fires 	
 				var noteID=$(this).attr('noteID');
-				console.log(noteID);
 				renderNotebyID(noteID);
 			});
 

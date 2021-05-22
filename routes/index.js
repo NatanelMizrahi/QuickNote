@@ -3,7 +3,7 @@ var express=require('express');
 var router=express.Router(); //router object from express
 
 router.get('/',isLoggedIn, function(req,res){
-	//console.log("logged in with: ", req.user.username);
+	// console.log("logged in with: ", req.user.username);
 	res.render('homepage');
 });
 

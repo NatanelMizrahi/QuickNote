@@ -1,10 +1,9 @@
 
-var siteURL="https://quicknote3.herokuapp.com"; //http://localhost:3000
-
+var config= require('../config');
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs('mongodb://admin:netenel@ds227035.mlab.com:27035/quicknote', ['users']);
+var db = mongojs(config.MONGODB_URI, ['users']);
 var bcrypt = require('bcryptjs');
 var crypto=require('crypto');
 var passport = require('passport');
@@ -15,8 +14,9 @@ var nodemailer=require('nodemailer');
 var templates= require('../utils/email-template');
 var validator= require('../utils/formValidation');
 
+
 //check if username/email exists in DB
-router.put("/", function(req,res){  //TODO should be a get request but ajax doesn't pass data
+router.put("/", function(req,res){
   var query={};
   var key= req.body.key;
   var value= req.body.value;
@@ -31,7 +31,6 @@ router.put("/", function(req,res){  //TODO should be a get request but ajax does
 router.get('/login', function(req, res){
   res.render('login');
 });
-
 // Register - POST
 router.post('/signup',function(req,res){
    //check name duplicate
@@ -58,14 +57,13 @@ router.post('/signup',function(req,res){
             var user={
               username: req.body.name,
               email: req.body.email,
-              phone: req.body.phone,
               password: hash
             }
             //insert user to DB
             db.users.insert(user,function(err,result){
               if(err){ return done(err); }
               req.flash("success", "Registration complete. You may now log in.");
-              sendRegistrationEmail(user);
+              sendRegistrationEmail(user,req);
               res.render("homepage");
           });
         });
@@ -75,20 +73,20 @@ router.post('/signup',function(req,res){
 }); //sorry for the callback hell..
 
 //welcome email for new users
-function sendRegistrationEmail(user){
+function sendRegistrationEmail(user,req){
   var transporter=nodemailer.createTransport({
     host: 'smtp.gmail.com',
     port:465,
     secure: true,
     auth: {
-      user: 'testpassrestore@gmail.com',
-      pass: 'qweqwe343'
+      user: 'quicknote.service@gmail.com',
+      pass: 'lffehbpewdnzwlgo'
     }
   });
   //generate HTML to be sent by the register template in the custom module for email templates, with the user's data.
   templates.register(user, function(err,htmlBody){
     var options={
-      from: 'QuickNote <testpassrestore@gmail.com>',
+      from: 'QuickNote <quicknote.service@gmail.com>',
       to: user.email,
       subject:'Welcome to QuickNote',
       html: htmlBody
@@ -99,7 +97,7 @@ function sendRegistrationEmail(user){
         req.flash('error','Oops! something went wrong. Please check your internet connection and try again.');
         return;
       }
-      console.log('email sent');
+      console.log('Registration email sent to user: ' + user.email);
       return;
     });
   });
@@ -123,12 +121,11 @@ passport.deserializeUser(function(id, done) {
 passport.use(new FacebookStrategy({
     clientID: 1919670618359882,
     clientSecret: '87efe5e123d6c6e28ff1a8f7e597fdd0',
-    callbackURL: siteURL+"/users/facebookLogin/callback",
+    callbackURL: "https://quicknote3.herokuapp.com/users/facebookLogin/callback",
     profileFields: ['id', 'displayName', 'photos', 'emails'],
     passReqToCallback:true,
   },
   function(req, accessToken, refreshToken, profile, cb) {
-    console.log(profile);
     db.users.findAndModify({
       query:{ username: profile.displayName},
       update:{$set:{ username: profile.displayName }},
@@ -191,9 +188,10 @@ router.post('/login', function(req, res, next) {
     if (!user) { return res.redirect('/users/login'); }
     req.logIn(user, function(err) {
       if (err) { return next(err); }
-      req.flash('success', "Welcome " + user.username+", you are now logged in."); 
+      req.flash('success', `Welcome ${user.username}, you are now logged in.`);
+      var previousPage = req.header('Referer');
       //if logged in frm login page, redirect to index, otherwise go to the previous page
-      var url= req.header('Referer')===siteURL+"/users/login" ? "/" : 'back';
+      var url = previousPage.endsWith("/users/login") ? "/" : previousPage;
       return res.redirect(url);
     });
   })(req, res, next);
@@ -218,7 +216,6 @@ router.post('/resetPassword', sendpass, function(req, res){
 //send the reset password email
 function sendpass(req, res, next){
   var email= req.body.email;
-  console.log(email);
   db.users.findOne({email: email}, function(err,user){
     if (err) { console.log(err); return;}
     if (!user){
@@ -246,14 +243,14 @@ function sendpass(req, res, next){
             port:465,
             secure: true,
             auth: {
-              user: 'testpassrestore@gmail.com',
-              pass: 'qweqwe343'
+              user: 'quicknote.service@gmail.com',
+              pass: 'lffehbpewdnzwlgo'
             }
           });
-          var resetUrl= "https://"+req.headers.host+'/users/resetPassword/'+token;
-          templates.pwdRestore(user, resetUrl , function(err, htmlBody){
+          var resetUrl= req.protocol + "://"+req.headers.host+'/users/resetPassword/'+token;
+          templates.pwdRestore(user, req, resetUrl , function(err, htmlBody){
             var options = {
-              from: 'QuickNote <testpassrestore@gmail.com>',
+              from: 'QuickNote <quicknote.service@gmail.com>',
               to: email,
               subject: `Hello ${user.username}, your password reset email from QuickNote`,
               html: htmlBody

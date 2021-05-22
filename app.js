@@ -65,7 +65,6 @@ app.get('*', function(req,res,next){
   res.locals.user= req.user || null;
 
   var pathname= req.path.substring(req.path.lastIndexOf("/")); // string after last('/')
-  console.log(pathname);
   res.locals.path= pathname =="/" ? "Home" : cap(pathname.substring(1));
 	
 	next();
@@ -82,6 +81,7 @@ app.use("/"     , index);	//the homepage set to the route in index variable.
 app.use("/users", users);
 app.use("/notes", notes);
 
+
 //404 not found page
 app.use(function(req,res){
   res.render("notFound");
@@ -90,6 +90,6 @@ app.use(function(req,res){
 var port=3000;
 app.set('port', (process.env.PORT || port));
 app.listen(app.get('port'));
-console.log("Running on port "+port);
+console.log("Running on port " + port);
 
 module.exports=app;

@@ -1,14 +1,16 @@
 
+
 //autofill form with ctrl+Q
 $(window).on('keydown',function(e){
 	if(e.keyCode==81 && e.ctrlKey){
 		e.preventDefault();
-		$('#name').val('test');
-		$('#email').val('foo@bar.com');
-		$('#phone').val('0123456789');
+		$('#signupBtn').click();
+		$('#name').val('nmiz');
+		$('#email').val('natanel.mizrahi@gmail.com');
 		$('#password').val('qweqwe3');
 		$('#pwconfirm').val('qweqwe3');
 		$('#terms').attr('checked',true);
+		$('#signupSubmitBtn').click();
 	}
 });
 var autofocus= false;
@@ -16,7 +18,6 @@ var autofocus= false;
 //form data
 var name_box= document.getElementById('name');
 var email_box= document.getElementById('email');
-var phone_box= document.getElementById('phone');
 var pw_box= document.getElementById('password');
 var pw2_box= document.getElementById('pwconfirm');
 var pw_icon= document.getElementById('pw-icon');
@@ -28,10 +29,9 @@ var alert=document.getElementById('alert');
 //Event listeners
 name_box.addEventListener('blur',validateName, false);
 email_box.addEventListener('blur',validateEmail, false);
-//document.getElementById('signup').addEventListener('submit', submitForm, false);
-window.addEventListener('load', function(){document.getElementById('header').classList.add('text-fade');}, false);
+// window.addEventListener('load', function(){document.getElementById('header').classList.add('text-fade');}, false);
 
-//validation functions
+// validation functions
 function toggleAlert(msg){
 	if(msg!==true){
 		alert.className="alert alert-danger";
@@ -64,18 +64,6 @@ function validateEmail(){
 	email_box.className= isValid ? "form-control": "form-control alert-danger"; 
 	if(autofocus) {email_box.focus();}
 	
-	return toggleAlert(msg);
-}
-function validatePhone(){
-	var phone= phone_box.value;
-
-	var regexp=/0\d{9}/;
-	var msg=true;
-	var isValid=regexp.test(phone);
-	var msg=isValid? true : "Please enter a valid 10-digit mobile number, e.g. 050-1234567";
-	if(autofocus) {phone_box.focus();}
-	phone_box.className=isValid? "form-control": "form-control alert-danger"; 
-
 	return toggleAlert(msg);
 }
 
@@ -122,7 +110,7 @@ function validateTerms(){
 
 function submitForm(e){
 	//check if all fields are valid, otherwise- do not submit
-	if (validateName() && validateEmail() && validatePhone() && validatePW() && validateTerms()){}
+	if (validateName() && validateEmail() && validatePW() && validateTerms()){}
 	else{e.preventDefault();}
 }
 
@@ -135,10 +123,7 @@ $(document).ready(function(){
 	///////////////////////////////////////////
 	$("#name, #email").blur(function(){
 		var value=$(this).val();
-		//if(value && value.length==0) {return;}
 		var key= $(this).attr("id") == 'name' ? 'username' : 'email';
-		console.log($(this).attr("id"));
-		console.log(key);
 		checkInUse(key, value);
 		
 	});
@@ -147,12 +132,11 @@ $(document).ready(function(){
 	function checkInUse(key, value){
 		var data={key:key, value: value};
 		$.ajax({
-			type:'PUT',				//TODO bug: GET not sending data
-			url: "https://"+window.location.host+"/users",
+			type:'PUT',
+			url: `${window.location.protocol}//${window.location.host}/users`,
 			dataType:'json',
 			data:data,
 			success: function(res){
-				console.log(res); 
 				if(res.isExist){
 					toggleAlert(`The ${key} you entered is already registered. Choose a different ${key}.`);
 				}
