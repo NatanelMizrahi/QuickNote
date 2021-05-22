@@ -161,6 +161,7 @@ passport.use(new LocalStrategy({
       passwordField: 'password'
   },
   function(req, username, password, done){
+    console.log("login attempt, User:", username);
     db.users.findOne({$or: [{username: username},{email:username}] }, function(err, user){
       if(err) {
         console.trace(err);
