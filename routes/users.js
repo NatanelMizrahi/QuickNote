@@ -162,7 +162,10 @@ passport.use(new LocalStrategy({
   },
   function(req, username, password, done){
     db.users.findOne({$or: [{username: username},{email:username}] }, function(err, user){
-      if(err) { return done(err); }
+      if(err) {
+        console.trace(err);
+        return done(err);
+      }
       //no user found with the submitted username/email
       if(!user){
         return done(null, false, req.flash('error', "Invalid username or email."));
