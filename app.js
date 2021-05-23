@@ -87,8 +87,8 @@ app.use(function(req,res){
   res.render("notFound");
 });
 //initialize server
-var port=3000;
-app.set('port', (process.env.PORT || port));
+var port=process.env.PORT || 3000;
+app.set('port', (port));
 app.listen(app.get('port'));
 console.log("Running on port " + port);
 

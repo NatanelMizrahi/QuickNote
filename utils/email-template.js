@@ -1,7 +1,7 @@
 var fs= require('fs');
 var ejs= require('ejs');
 
-var getAppBaseUrl = (req) => req.protocol+"://"+req.headers.host;
+var getAppBaseUrl = (req) => `${req.protocol}://${req.headers.host}`;
 
 // credit for template to https://postmarkapp.com
 var passwordTemplate= function(user,req, resetUrl, callback){

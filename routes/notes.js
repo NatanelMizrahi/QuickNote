@@ -1,7 +1,7 @@
 var membersOnly=true;
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/quicknote";
 var mongojs=require('mongojs');
-var config= require('../config');
-var db=mongojs(config.MONGODB_URI,['users']); //(DB,collections)
+var db=mongojs(MONGODB_URI,['users']); //(DB,collections)
 var express=require('express');
 var router=express.Router();
 module.exports= router;

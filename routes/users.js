@@ -1,9 +1,9 @@
-
-var config= require('../config');
+const MONGODB_URI = process.env.MONGODB_URI || "mongodb://localhost:27017/quicknote";
 var express = require('express');
 var router = express.Router();
 var mongojs = require('mongojs');
-var db = mongojs(config.MONGODB_URI, ['users']);
+var db = mongojs(MONGODB_URI, ['users']);
+console.log(db._connString);
 var bcrypt = require('bcryptjs');
 var crypto=require('crypto');
 var passport = require('passport');
@@ -84,7 +84,7 @@ function sendRegistrationEmail(user,req){
     }
   });
   //generate HTML to be sent by the register template in the custom module for email templates, with the user's data.
-  templates.register(user, function(err,htmlBody){
+  templates.register(user, req, function(err,htmlBody){
     var options={
       from: 'QuickNote <quicknote.service@gmail.com>',
       to: user.email,
