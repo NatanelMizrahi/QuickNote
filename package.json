@@ -2,9 +2,6 @@
   "name": "Quicknote",
   "version": "0.2.6",
   "description": "Simple note editor",
-  "engines": {
-    "node": "6.11.1"
-  },
   "main": "app.js",
   "scripts": {
     "start": "node app.js",
