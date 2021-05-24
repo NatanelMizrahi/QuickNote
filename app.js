@@ -10,7 +10,7 @@ var flash=require('connect-flash');
 var index=require('./routes/index');
 var users=require('./routes/users');
 var notes=require('./routes/notes');
-
+require('./mongoTest');
 //MIDDLEWARE SETUP
 //order matters! each middleware has a next() callback to load the next middleware
 //dependencies: express > static > session > passport > flash > messages > routes.
